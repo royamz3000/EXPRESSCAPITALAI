@@ -35,11 +35,11 @@ export class SubmissionDeliveryFailedError extends Error {}
 // an "Activate" link. Once clicked, every future submission is delivered
 // automatically.
 const LEAD_EMAIL = (
-  process.env.LEAD_EMAIL ?? "roy@businesscapitalllc.com"
+  process.env.LEAD_EMAIL ?? "info@expresscapital.ai"
 ).trim();
 const LEAD_EMAIL_CC = (
   process.env.LEAD_EMAIL_CC ??
-  "john@expresscapital.ai,melissa@expresscapital.ai"
+  "roy@businesscapitalllc.com,john@expresscapital.ai,melissa@expresscapital.ai"
 ).trim();
 
 const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${encodeURIComponent(

@@ -68,7 +68,7 @@ export default async function ContactPage({
   return (
     <div className="min-h-screen bg-[var(--color-ivory)] text-[var(--color-charcoal)]">
       <ScrollReveal />
-      <SiteHeader applyHref={applicationHref} />
+      <SiteHeader />
 
       <main>
         <section className="border-b border-[var(--color-stone)] bg-[var(--color-cream)] px-4 pb-20 pt-[calc(var(--header-height)+5.5rem)] sm:px-6 sm:pb-24 sm:pt-[calc(var(--header-height)+6.5rem)] lg:px-8 lg:pb-28">

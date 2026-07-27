@@ -51,7 +51,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[var(--color-ivory)] text-[var(--color-charcoal)]">
       <ScrollReveal />
-      <SiteHeader applyHref="/#apply" />
+      <SiteHeader />
 
       <main>
         <section className="relative isolate overflow-hidden border-b border-[var(--color-stone)] bg-[var(--color-cream)] px-4 pb-24 pt-[calc(var(--header-height)+6rem)] sm:px-6 sm:pb-28 sm:pt-[calc(var(--header-height)+7rem)] lg:px-8 lg:pb-32">

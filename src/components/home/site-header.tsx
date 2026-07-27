@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-export function SiteHeader({ applyHref = "#apply" }: { applyHref?: string }) {
+export function SiteHeader({ applyHref = "/application" }: { applyHref?: string }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOverDarkSection, setIsOverDarkSection] = useState(false);

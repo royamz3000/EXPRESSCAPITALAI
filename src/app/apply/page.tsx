@@ -32,7 +32,7 @@ export default function ApplyPage() {
   return (
     <div className="min-h-screen bg-[#f4efe4] text-[#221d17]">
       <ScrollReveal />
-      <SiteHeader applyHref="/apply" />
+      <SiteHeader />
 
       <main className="pt-[var(--header-height)]">
         <ApplySection redirectHref="/apply/thank-you" />

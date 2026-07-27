@@ -48,7 +48,7 @@ export function validateLeadApplication(
   const email = getTrimmedString(payload, "email");
   const name = getTrimmedString(payload, "name");
   const mobile = getTrimmedString(payload, "mobile");
-  const office = getTrimmedString(payload, "office") ?? "";
+  const office = getTrimmedString(payload, "office");
   const companyWebsite = getTrimmedString(payload, "companyWebsite") ?? "";
   const invalidFields: ValidationErrorField[] = [];
 
@@ -111,7 +111,7 @@ export function validateLeadApplication(
     invalidFields.push("mobile");
   }
 
-  if (office && !isValidPhone(office)) {
+  if (!office || !isValidPhone(office)) {
     invalidFields.push("office");
   }
 
@@ -134,7 +134,7 @@ export function validateLeadApplication(
       email: email!,
       name: name!,
       mobile: mobile!,
-      office,
+      office: office!,
     },
   };
 }

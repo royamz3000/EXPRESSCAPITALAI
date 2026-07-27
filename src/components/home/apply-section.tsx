@@ -167,7 +167,7 @@ export function ApplySection() {
           </div>
           <div className="motion-stagger-item relative z-10 grid gap-x-10 gap-y-9 sm:grid-cols-2">
             <TextField autoComplete="tel" label="Mobile" name="mobile" placeholder="(555) 000-0000" required type="tel" />
-            <TextField label="Office" name="office" placeholder="(555) 000-0000" type="tel" />
+            <TextField autoComplete="tel" label="Office" name="office" placeholder="(555) 000-0000" required type="tel" />
           </div>
           <div className="motion-stagger-item relative z-0 pt-3">
             <div className="flex justify-center">

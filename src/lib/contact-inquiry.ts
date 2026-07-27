@@ -1,7 +1,6 @@
 import "server-only";
 
 import {
-  contactRequiresBusinessName,
   contactUtmFields,
   isContactInquiryType,
   type ContactInquiry,
@@ -98,22 +97,17 @@ export function validateContactInquiry(
   if (!email || !isValidEmail(email)) {
     invalidFields.push("email");
   }
-  if (phone && !isValidPhone(phone)) {
+  if (!phone || !isValidPhone(phone)) {
     invalidFields.push("phone");
   }
 
-  const requiresBusinessName =
-    inquiryType !== null &&
-    isContactInquiryType(inquiryType) &&
-    contactRequiresBusinessName(inquiryType);
   if (
-    (requiresBusinessName && !businessName) ||
-    (businessName &&
-      !isValidText(
-        businessName,
-        submissionFieldLimits.businessName.minimum,
-        submissionFieldLimits.businessName.maximum,
-      ))
+    !businessName ||
+    !isValidText(
+      businessName,
+      submissionFieldLimits.businessName.minimum,
+      submissionFieldLimits.businessName.maximum,
+    )
   ) {
     invalidFields.push("businessName");
   }

@@ -70,7 +70,6 @@ export function contactRequiresBusinessName(inquiryType: ContactInquiryType) {
 
 export function validateContactFormFields(
   values: Record<ContactFieldName, string>,
-  inquiryType: ContactInquiryType,
 ) {
   const errors: ContactFieldErrors = {};
   const fullName = values.fullName.trim();
@@ -91,17 +90,16 @@ export function validateContactFormFields(
   if (!isValidEmail(email)) {
     errors.email = "Enter a valid email address.";
   }
-  if (phone && !isValidPhone(phone)) {
+  if (!phone || !isValidPhone(phone)) {
     errors.phone = "Enter a valid phone number.";
   }
   if (
-    (contactRequiresBusinessName(inquiryType) && !businessName) ||
-    (businessName &&
-      !isValidText(
-        businessName,
-        submissionFieldLimits.businessName.minimum,
-        submissionFieldLimits.businessName.maximum,
-      ))
+    !businessName ||
+    !isValidText(
+      businessName,
+      submissionFieldLimits.businessName.minimum,
+      submissionFieldLimits.businessName.maximum,
+    )
   ) {
     errors.businessName = "Enter the business name.";
   }

@@ -5,7 +5,6 @@ import { FormEvent, useRef, useState } from "react";
 
 import { footerContent } from "@/content/home";
 import {
-  contactRequiresBusinessName,
   contactSelectorOptions,
   validateContactFormFields,
   type ContactFieldErrors,
@@ -32,8 +31,6 @@ export function ContactForm({
   const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
   const idempotencyKeyRef = useRef<string | null>(null);
   const isFundingRequest = inquiryType === "funding_request";
-  const requiresBusinessName =
-    !isFundingRequest && contactRequiresBusinessName(inquiryType);
 
   function resetSubmissionState() {
     if (submissionStatus === "submitting") return;
@@ -62,7 +59,7 @@ export function ContactForm({
       message: String(formData.get("message") ?? ""),
     };
     const contactInquiryType = inquiryType as ContactInquiry["inquiryType"];
-    const errors = validateContactFormFields(values, contactInquiryType);
+    const errors = validateContactFormFields(values);
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -205,15 +202,16 @@ export function ContactForm({
                 label="Phone number"
                 name="phone"
                 placeholder="(555) 000-0000"
+                required
                 type="tel"
               />
               <ContactTextField
                 autoComplete="organization"
                 error={fieldErrors.businessName}
-                label={`Business name${requiresBusinessName ? "" : " (optional)"}`}
+                label="Business name"
                 name="businessName"
                 placeholder="Business name"
-                required={requiresBusinessName}
+                required
               />
             </div>
 

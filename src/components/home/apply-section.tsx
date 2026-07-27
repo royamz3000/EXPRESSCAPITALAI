@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useRouter } from "next/navigation";
 
 import { revenueRanges, yearsOperating } from "@/lib/lead-fields";
 import { libreCaslonDisplay } from "@/lib/fonts";
@@ -38,7 +39,12 @@ function Eyebrow({ children, tone = "light" }: { children: string; tone?: "light
   );
 }
 
-export function ApplySection() {
+export function ApplySection({
+  redirectHref,
+}: {
+  redirectHref?: string;
+} = {}) {
+  const router = useRouter();
   const [capital, setCapital] = useState(150000);
   const [openSelectName, setOpenSelectName] = useState<string | null>(null);
   const [submissionStatus, setSubmissionStatus] =
@@ -80,6 +86,11 @@ export function ApplySection() {
 
     if (result.success) {
       setSubmissionStatus("success");
+      if (redirectHref) {
+        setSubmissionMessage("Request received. Taking you to the next step...");
+        router.push(redirectHref);
+        return;
+      }
       setSubmissionMessage(
         "Request received. An Express Capital advisor will review the opportunity and follow up directly.",
       );

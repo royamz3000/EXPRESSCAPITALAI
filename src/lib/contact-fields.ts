@@ -62,12 +62,6 @@ export function getContactInquiryLabel(inquiryType: ContactInquiryType) {
     .label;
 }
 
-export function contactRequiresBusinessName(inquiryType: ContactInquiryType) {
-  return (
-    inquiryType === "existing_application" || inquiryType === "partnership"
-  );
-}
-
 export function validateContactFormFields(
   values: Record<ContactFieldName, string>,
 ) {
@@ -94,7 +88,7 @@ export function validateContactFormFields(
     errors.phone = "Enter a valid phone number.";
   }
   if (
-    !businessName ||
+    businessName &&
     !isValidText(
       businessName,
       submissionFieldLimits.businessName.minimum,

@@ -53,7 +53,7 @@ export function validateLeadApplication(
   const invalidFields: ValidationErrorField[] = [];
 
   if (
-    !businessName ||
+    businessName &&
     !isValidText(
       businessName,
       submissionFieldLimits.businessName.minimum,
@@ -64,7 +64,7 @@ export function validateLeadApplication(
   }
 
   if (
-    !monthlyRevenue ||
+    monthlyRevenue &&
     !revenueRanges.includes(
       monthlyRevenue as (typeof revenueRanges)[number],
     )
@@ -73,7 +73,7 @@ export function validateLeadApplication(
   }
 
   if (
-    !operatingYears ||
+    operatingYears &&
     !yearsOperating.includes(
       operatingYears as (typeof yearsOperating)[number],
     )
@@ -111,7 +111,7 @@ export function validateLeadApplication(
     invalidFields.push("mobile");
   }
 
-  if (!office || !isValidPhone(office)) {
+  if (office && !isValidPhone(office)) {
     invalidFields.push("office");
   }
 
@@ -127,14 +127,18 @@ export function validateLeadApplication(
     success: true,
     isSpam: companyWebsite.length > 0,
     data: {
-      businessName: businessName!,
-      monthlyRevenue: monthlyRevenue as LeadApplication["monthlyRevenue"],
-      yearsOperating: operatingYears as LeadApplication["yearsOperating"],
+      ...(businessName ? { businessName } : {}),
+      ...(monthlyRevenue
+        ? { monthlyRevenue: monthlyRevenue as LeadApplication["monthlyRevenue"] }
+        : {}),
+      ...(operatingYears
+        ? { yearsOperating: operatingYears as LeadApplication["yearsOperating"] }
+        : {}),
       capitalSought: parsedCapital,
       email: email!,
       name: name!,
       mobile: mobile!,
-      office: office!,
+      ...(office ? { office } : {}),
     },
   };
 }

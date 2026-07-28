@@ -57,6 +57,14 @@ export function ApplySection({
     [capital],
   );
 
+  function resetSubmissionState() {
+    if (submissionStatus === "submitting") return;
+
+    idempotencyKeyRef.current = null;
+    setSubmissionStatus("idle");
+    setSubmissionMessage("");
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (submissionStatus === "submitting" || submissionStatus === "success") {
@@ -74,12 +82,6 @@ export function ApplySection({
 
     const payload = Object.fromEntries(new FormData(form));
     payload.capitalSought = String(capital);
-
-    if (!payload.monthlyRevenue || !payload.yearsOperating) {
-      setSubmissionStatus("error");
-      setSubmissionMessage("Select monthly revenue and years operating to continue.");
-      return;
-    }
 
     setSubmissionStatus("submitting");
     setSubmissionMessage("Submitting your request...");
@@ -132,6 +134,7 @@ export function ApplySection({
           data-reveal
           method="post"
           noValidate
+          onChange={resetSubmissionState}
           onSubmit={handleSubmit}
         >
           <div
@@ -151,27 +154,28 @@ export function ApplySection({
           <div className={`motion-stagger-item relative grid gap-x-10 gap-y-9 sm:grid-cols-2 ${openSelectName === "monthlyRevenue" ? "z-[120]" : "z-40"}`}>
             <TextField
               autoComplete="organization"
-              label="Business name"
+              label="Business name (optional)"
               name="businessName"
               placeholder="Atelier Nord LLC"
-              required
             />
             <SelectField
-              label="Monthly revenue"
+              label="Monthly revenue (optional)"
               name="monthlyRevenue"
               onOpenChange={setOpenSelectName}
               placeholder="Select range"
               options={revenueRanges}
+              required={false}
               validationStatus={submissionStatus}
             />
           </div>
           <div className={`motion-stagger-item relative grid gap-x-10 gap-y-9 sm:grid-cols-2 ${openSelectName === "yearsOperating" ? "z-[120]" : "z-30"}`}>
             <SelectField
-              label="Years operating"
+              label="Years operating (optional)"
               name="yearsOperating"
               onOpenChange={setOpenSelectName}
               placeholder="Select"
               options={yearsOperating}
+              required={false}
               validationStatus={submissionStatus}
             />
             <CapitalField
@@ -187,7 +191,7 @@ export function ApplySection({
           </div>
           <div className="motion-stagger-item relative z-10 grid gap-x-10 gap-y-9 sm:grid-cols-2">
             <TextField autoComplete="tel" label="Mobile" name="mobile" placeholder="(555) 000-0000" required type="tel" />
-            <TextField autoComplete="tel" label="Office" name="office" placeholder="(555) 000-0000" required type="tel" />
+            <TextField autoComplete="tel" label="Office (optional)" name="office" placeholder="(555) 000-0000" type="tel" />
           </div>
           <div className="motion-stagger-item relative z-0 pt-3">
             <div className="flex justify-center">
@@ -301,6 +305,7 @@ function SelectField({
   onOpenChange,
   options,
   placeholder,
+  required = true,
   validationStatus,
 }: {
   label: string;
@@ -308,6 +313,7 @@ function SelectField({
   onOpenChange: (name: string | null) => void;
   options: readonly string[];
   placeholder: string;
+  required?: boolean;
   validationStatus: "idle" | "submitting" | "success" | "error";
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -319,7 +325,7 @@ function SelectField({
   const fieldRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const optionRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const isInvalid = validationStatus === "error" && !value;
+  const isInvalid = required && validationStatus === "error" && !value;
 
   useEffect(() => {
     onOpenChange(isOpen ? name : null);
@@ -417,16 +423,22 @@ function SelectField({
       <span className="text-xs uppercase tracking-[0.19em] text-[#6f7354]" id={labelId}>
         {label}
       </span>
-      <span className="sr-only" id={`${labelId}-requirement`}>
-        required
-      </span>
+      {required ? (
+        <span className="sr-only" id={`${labelId}-requirement`}>
+          required
+        </span>
+      ) : null}
       <input name={name} type="hidden" value={value} />
       <button
         aria-controls={listboxId}
         aria-describedby={isInvalid ? "application-status" : undefined}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
-        aria-labelledby={`${labelId} ${valueId} ${labelId}-requirement`}
+        aria-labelledby={
+          required
+            ? `${labelId} ${valueId} ${labelId}-requirement`
+            : `${labelId} ${valueId}`
+        }
         className="mt-3 flex h-11 w-full items-center justify-between border-b border-[rgba(49,42,32,0.18)] bg-transparent px-0 text-left text-base text-[#221d17] transition hover:border-[rgba(49,42,32,0.32)] focus:border-[#6f7354]"
         onClick={() => {
           const selectedIndex = options.indexOf(value);

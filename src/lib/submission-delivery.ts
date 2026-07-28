@@ -76,13 +76,17 @@ function buildEmailFields(request: SubmissionDeliveryRequest): {
       replyTo:
         typeof payload.email === "string" ? payload.email : undefined,
       fields: {
-        "Business Name": businessName,
+        "Business Name": businessName || "Not provided",
         "Contact Name": String(payload.name ?? ""),
         Email: String(payload.email ?? ""),
         "Mobile Phone": String(payload.mobile ?? ""),
-        "Office Phone": String(payload.office ?? ""),
-        "Monthly Revenue": String(payload.monthlyRevenue ?? ""),
-        "Years Operating": String(payload.yearsOperating ?? ""),
+        "Office Phone": payload.office ? String(payload.office) : "Not provided",
+        "Monthly Revenue": payload.monthlyRevenue
+          ? String(payload.monthlyRevenue)
+          : "Not provided",
+        "Years Operating": payload.yearsOperating
+          ? String(payload.yearsOperating)
+          : "Not provided",
         "Capital Sought": capitalSought,
       },
     };

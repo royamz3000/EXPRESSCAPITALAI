@@ -5,7 +5,7 @@ import { createHash } from "node:crypto";
 const SUBMISSION_MAX_BYTES = 12 * 1024;
 
 const rateLimitWindowMs = 15 * 60 * 1000;
-const rateLimitMaximum = 5;
+const rateLimitMaximum = 12;
 const idempotencyTtlMs = 24 * 60 * 60 * 1000;
 const idempotencyKeyPattern =
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

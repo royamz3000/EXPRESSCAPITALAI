@@ -208,10 +208,9 @@ export function ContactForm({
               <ContactTextField
                 autoComplete="organization"
                 error={fieldErrors.businessName}
-                label="Business name"
+                label="Business name (optional)"
                 name="businessName"
                 placeholder="Business name"
-                required
               />
             </div>
 

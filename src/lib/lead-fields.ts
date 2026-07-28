@@ -13,12 +13,12 @@ export const yearsOperating = [
 ] as const;
 
 export type LeadApplication = {
-  businessName: string;
-  monthlyRevenue: (typeof revenueRanges)[number];
-  yearsOperating: (typeof yearsOperating)[number];
+  businessName?: string;
+  monthlyRevenue?: (typeof revenueRanges)[number];
+  yearsOperating?: (typeof yearsOperating)[number];
   capitalSought: number;
   email: string;
   name: string;
   mobile: string;
-  office: string;
+  office?: string;
 };

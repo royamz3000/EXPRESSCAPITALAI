@@ -102,7 +102,7 @@ export function validateContactInquiry(
   }
 
   if (
-    !businessName ||
+    businessName &&
     !isValidText(
       businessName,
       submissionFieldLimits.businessName.minimum,

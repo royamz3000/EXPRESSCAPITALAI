@@ -32,7 +32,7 @@ const allowedFields = new Set([
   "message",
   "sourcePath",
   "utm",
-  "companyWebsite",
+  "extraField1",
 ]);
 const allowedUtmFields = new Set<string>(contactUtmFields);
 
@@ -77,7 +77,7 @@ export function validateContactInquiry(
   const businessName = getTrimmedString(payload, "businessName") ?? "";
   const message = getTrimmedString(payload, "message");
   const sourcePath = getTrimmedString(payload, "sourcePath");
-  const companyWebsite = getTrimmedString(payload, "companyWebsite") ?? "";
+  const extraField1 = getTrimmedString(payload, "extraField1") ?? "";
   const utm = validateUtm(payload.utm);
   const invalidFields: ContactValidationField[] = [];
 
@@ -131,7 +131,7 @@ export function validateContactInquiry(
   }
   if (
     utm === null ||
-    companyWebsite.length > submissionFieldLimits.honeypot.maximum
+    extraField1.length > submissionFieldLimits.honeypot.maximum
   ) {
     invalidFields.push("form");
   }
@@ -142,7 +142,7 @@ export function validateContactInquiry(
 
   return {
     success: true,
-    isSpam: companyWebsite.length > 0,
+    isSpam: extraField1.length > 0,
     data: {
       inquiryType: inquiryType as ContactInquiry["inquiryType"],
       fullName: fullName!,

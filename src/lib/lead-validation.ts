@@ -25,7 +25,7 @@ const allowedFields = new Set([
   "name",
   "mobile",
   "office",
-  "companyWebsite",
+  "extraField1",
 ]);
 
 type ValidationErrorField = keyof LeadApplication | "form";
@@ -49,7 +49,7 @@ export function validateLeadApplication(
   const name = getTrimmedString(payload, "name");
   const mobile = getTrimmedString(payload, "mobile");
   const office = getTrimmedString(payload, "office");
-  const companyWebsite = getTrimmedString(payload, "companyWebsite") ?? "";
+  const extraField1 = getTrimmedString(payload, "extraField1") ?? "";
   const invalidFields: ValidationErrorField[] = [];
 
   if (
@@ -115,7 +115,7 @@ export function validateLeadApplication(
     invalidFields.push("office");
   }
 
-  if (companyWebsite.length > submissionFieldLimits.honeypot.maximum) {
+  if (extraField1.length > submissionFieldLimits.honeypot.maximum) {
     invalidFields.push("form");
   }
 
@@ -125,7 +125,7 @@ export function validateLeadApplication(
 
   return {
     success: true,
-    isSpam: companyWebsite.length > 0,
+    isSpam: extraField1.length > 0,
     data: {
       ...(businessName ? { businessName } : {}),
       ...(monthlyRevenue

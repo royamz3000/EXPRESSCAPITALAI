@@ -145,7 +145,7 @@ export function ApplySection({
               Leave this field blank
               <input
                 autoComplete="off"
-                name="companyWebsite"
+                name="extraField1"
                 tabIndex={-1}
                 type="text"
               />

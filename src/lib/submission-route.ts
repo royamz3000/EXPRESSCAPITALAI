@@ -70,6 +70,10 @@ export function methodNotAllowed() {
   );
 }
 
+function normalizeHost(host: string) {
+  return host.trim().toLowerCase().replace(/^www\./, "");
+}
+
 function isSameOriginRequest(request: Request) {
   const fetchSite = request.headers.get("sec-fetch-site");
   if (
@@ -87,7 +91,14 @@ function isSameOriginRequest(request: Request) {
   if (!forwardedHost) return false;
 
   try {
-    return new URL(origin).host === forwardedHost.split(",")[0].trim();
+    // Compare with the "www." prefix stripped on both sides so the apex and
+    // www variants of the same domain (both of which resolve to this site)
+    // are treated as same-origin, even if an edge/CDN hop changes which one
+    // ends up in the forwarded host header.
+    return (
+      normalizeHost(new URL(origin).host) ===
+      normalizeHost(forwardedHost.split(",")[0])
+    );
   } catch {
     return false;
   }

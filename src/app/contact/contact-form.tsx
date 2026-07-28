@@ -74,7 +74,7 @@ export function ContactForm({
 
     const phone = values.phone.trim();
     const businessName = values.businessName.trim();
-    const payload: ContactInquiry & { companyWebsite?: string } = {
+    const payload: ContactInquiry & { extraField1?: string } = {
       inquiryType: contactInquiryType,
       fullName: values.fullName.trim(),
       email: values.email.trim(),
@@ -83,7 +83,7 @@ export function ContactForm({
       message: values.message.trim(),
       sourcePath: window.location.pathname,
       ...(utm ? { utm } : {}),
-      companyWebsite: String(formData.get("companyWebsite") ?? ""),
+      extraField1: String(formData.get("extraField1") ?? ""),
     };
 
     idempotencyKeyRef.current ??= crypto.randomUUID();
@@ -174,7 +174,7 @@ export function ContactForm({
             <div aria-hidden="true" className="absolute left-[-10000px] h-px w-px overflow-hidden opacity-0">
               <label>
                 Leave this field blank
-                <input autoComplete="off" name="companyWebsite" tabIndex={-1} type="text" />
+                <input autoComplete="off" name="extraField1" tabIndex={-1} type="text" />
               </label>
             </div>
 

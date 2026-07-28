@@ -64,6 +64,14 @@ export function ApplySection({
     }
 
     const form = event.currentTarget;
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      setSubmissionStatus("error");
+      setSubmissionMessage("Please complete the highlighted fields to continue.");
+      return;
+    }
+
     const payload = Object.fromEntries(new FormData(form));
     payload.capitalSought = String(capital);
 
@@ -123,6 +131,7 @@ export function ApplySection({
           className="motion-stagger mx-auto mt-16 max-w-5xl space-y-9"
           data-reveal
           method="post"
+          noValidate
           onSubmit={handleSubmit}
         >
           <div

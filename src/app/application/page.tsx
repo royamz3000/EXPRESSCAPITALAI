@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/home/site-header";
 
 const applicationUrl =
-  "https://www.merchantfunding.app/s/?linkId=a2tQk000001iI0f";
+  "https://apply.expresscapital.ai/s/?linkId=a2tQk000001jMdJ";
 
 const applicationDescription =
   "Complete your Express Capital funding application securely online.";
